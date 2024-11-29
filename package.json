@@ -5,6 +5,10 @@
   "scripts": {
     "start:server": "cd server && npm install && npm start",
     "start:client": "cd client && npm install && npm start",
-    "test:e2e": "cd test-e2e && npm install && npm test"
+    "test:e2e": "cd test-e2e && npm install && npm test",
+    "start:dev": "concurrently \"npm run start:server\" \"npm run start:client\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
   }
 }
