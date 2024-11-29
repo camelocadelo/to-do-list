@@ -1,0 +1,95 @@
+openapi: 3.0.0
+info:
+  title: ToDo Calendar API
+  version: 1.1.0
+servers:
+  - url: http://localhost:4000
+paths:
+  /tasks:
+    get:
+      summary: Получить список задач на дату
+      parameters:
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Успешно
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+    post:
+      summary: Создать новую задачу
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewTask'
+      responses:
+        '201':
+          description: Создано
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+  /tasks/{id}:
+    delete:
+      summary: Удалить задачу
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Успешно удалено
+  /calendar:
+    get:
+      summary: Получить количество задач на каждый день месяца
+      responses:
+        '200':
+          description: Успешно
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        date:
+          type: string
+          format: date
+        completed:
+          type: boolean
+      required:
+        - id
+        - title
+        - date
+        - completed
+    NewTask:
+      type: object
+      properties:
+        title:
+          type: string
+        date:
+          type: string
+          format: date
+      required:
+        - title
+        - date
