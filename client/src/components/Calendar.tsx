@@ -38,7 +38,30 @@ const CalendarComponent: React.FC = () => {
   const formatDateTile = ({ date }: { date: Date }) => {
     const formattedDate = formatDateToLocalString(date);
     const count = taskCounts[formattedDate] || 0;
-    return count > 0 ? <span>{count}</span> : null;
+  
+    return count > 0 ? (
+      <div style={{ position: 'relative', height: '100%', width: '100%' }}>
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '5px', // Moves the circle further down
+            right: '-5px', // Moves the circle further to the right
+            width: '24px',
+            height: '24px',
+            borderRadius: '50%',
+            backgroundColor: 'rgba(224, 247, 250, 0.8)', // Light blue with transparency
+            color: '#006064', // Darker text color for contrast
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '12px',
+            fontWeight: 'bold',
+          }}
+        >
+          {count}
+        </div>
+      </div>
+    ) : null;
   };
 
   const handleDateClick = (date: Date) => {
