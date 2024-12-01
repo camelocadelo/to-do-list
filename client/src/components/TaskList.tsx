@@ -1,6 +1,6 @@
 import React from 'react';
 import { deleteTask } from '../services/api';
-
+import { toast } from 'react-toastify';
 
 interface Task {
   id: number;
@@ -17,16 +17,13 @@ interface TaskListProps {
 
 const TaskList: React.FC<TaskListProps> = ({ tasks, setTasks,  fetchTasks, refreshTaskCounts }) => {
   const handleDelete = async (id: number) => {
-    if (window.confirm('Are you sure you want to delete this task?')) {
-      try {
-        await deleteTask(id);
-        alert('Task deleted successfully!');
-        await fetchTasks(); // Fetch tasks again
-        await refreshTaskCounts(); // Refresh task counts for the calendar
-      } catch (error) {
-        console.error('Error deleting task:', error);
-        alert('Failed to delete the task. Please try again.');
-      }
+    try {
+      await deleteTask(id);
+      toast.success('Task deleted successfully!');
+      await fetchTasks()
+      await refreshTaskCounts()
+    } catch (error) {
+      toast.error('Failed to delete task!');
     }
   };
 

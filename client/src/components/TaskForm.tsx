@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { addTask } from '../services/api';
+import { toast } from 'react-toastify';
 
 interface TaskFormProps {
   selectedDate: Date;
@@ -18,20 +19,19 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, fetchTasks, refreshTa
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) {
-      alert('Task title is required!');
+      toast.error('Task title is required!');
       return;
     }
 
     const formattedDate = formatDateToLocalString(selectedDate);
     try {
       await addTask({ title, date: formattedDate });
-      setTitle(''); // Clear input after submission
-      alert('Task added successfully!');
-      await fetchTasks(); // Fetch tasks again
-      await refreshTaskCounts(); // Refresh task counts for the calendar
+      setTitle('');
+      toast.success('Task added successfully!');
+      await fetchTasks()
+      await refreshTaskCounts()
     } catch (error) {
-      console.error('Error adding task:', error);
-      alert('Failed to add the task. Please try again.');
+      toast.error('Failed to add task!');
     }
   };
 
