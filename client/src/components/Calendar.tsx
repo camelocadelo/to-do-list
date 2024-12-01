@@ -83,7 +83,7 @@ const CalendarComponent: React.FC = () => {
     {activeDate && (
       <div style={{ marginTop: '20px' }}>
         <h3>Tasks for {formattedActiveDate}</h3>
-        <TaskList tasks={tasks} fetchTasks={fetchTasks} refreshTaskCounts={refreshTaskCounts} />
+        <TaskList tasks={tasks} fetchTasks={fetchTasks} refreshTaskCounts={refreshTaskCounts} setTasks={setTasks} />
         <TaskForm selectedDate={activeDate} fetchTasks={fetchTasks} refreshTaskCounts={refreshTaskCounts} />
       </div>
     )}
