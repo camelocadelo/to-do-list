@@ -10,15 +10,16 @@ const CalendarComponent: React.FC = () => {
   const [activeDate, setActiveDate] = useState<Date | null>(null);
   const [tasks, setTasks] = useState<any[]>([]); // Replace `any` with your task type
   
+  // Fetch calendar task counts
+  const refreshTaskCounts = async () => {
+    const data = await fetchCalendarData();
+    setTaskCounts(data);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchCalendarData();
-      setTaskCounts(data);
-    };
-    fetchData();
+    refreshTaskCounts(); // Initial fetch for task counts
   }, []);
 
- 
   const fetchTasks = async () => {
     if (!activeDate) return;
 
@@ -30,6 +31,7 @@ const CalendarComponent: React.FC = () => {
   useEffect(() => {
     fetchTasks();
   }, [activeDate]);
+
 
   const formatDateToLocalString = (date: Date): string => {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
@@ -81,8 +83,8 @@ const CalendarComponent: React.FC = () => {
     {activeDate && (
       <div style={{ marginTop: '20px' }}>
         <h3>Tasks for {formattedActiveDate}</h3>
-        <TaskList tasks={tasks} fetchTasks={fetchTasks} />
-        <TaskForm selectedDate={activeDate} fetchTasks={fetchTasks} />
+        <TaskList tasks={tasks} fetchTasks={fetchTasks} refreshTaskCounts={refreshTaskCounts} />
+        <TaskForm selectedDate={activeDate} fetchTasks={fetchTasks} refreshTaskCounts={refreshTaskCounts} />
       </div>
     )}
     </div>

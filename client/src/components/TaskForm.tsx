@@ -4,9 +4,10 @@ import { addTask } from '../services/api';
 interface TaskFormProps {
   selectedDate: Date;
   fetchTasks: () => Promise<void>; // Fetch tasks callback
+  refreshTaskCounts: () => Promise<void>; // Callback to refresh task counts
 }
 
-const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, fetchTasks }) => {
+const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, fetchTasks, refreshTaskCounts }) => {
   const [title, setTitle] = useState('');
 
   // Format date to 'YYYY-MM-DD' in local time
@@ -27,6 +28,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, fetchTasks }) => {
       setTitle(''); // Clear input after submission
       alert('Task added successfully!');
       await fetchTasks(); // Fetch tasks again
+      await refreshTaskCounts(); // Refresh task counts for the calendar
     } catch (error) {
       console.error('Error adding task:', error);
       alert('Failed to add the task. Please try again.');
