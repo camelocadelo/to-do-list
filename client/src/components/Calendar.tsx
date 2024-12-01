@@ -18,14 +18,16 @@ const CalendarComponent: React.FC = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
+ 
+  const fetchTasks = async () => {
     if (!activeDate) return;
 
-    const fetchTasks = async () => {
-      const formattedDate = formatDateToLocalString(activeDate)
-      const data = await fetchTasksForDate(formattedDate);
-      setTasks(data);
-    };
+    const formattedDate = formatDateToLocalString(activeDate);
+    const data = await fetchTasksForDate(formattedDate);
+    setTasks(data);
+  };
+
+  useEffect(() => {
     fetchTasks();
   }, [activeDate]);
 
@@ -79,8 +81,8 @@ const CalendarComponent: React.FC = () => {
     {activeDate && (
       <div style={{ marginTop: '20px' }}>
         <h3>Tasks for {formattedActiveDate}</h3>
-        <TaskList tasks={tasks} />
-        <TaskForm selectedDate={activeDate} />
+        <TaskList tasks={tasks} fetchTasks={fetchTasks} />
+        <TaskForm selectedDate={activeDate} fetchTasks={fetchTasks} />
       </div>
     )}
     </div>

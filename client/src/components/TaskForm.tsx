@@ -3,9 +3,10 @@ import { addTask } from '../services/api';
 
 interface TaskFormProps {
   selectedDate: Date;
+  fetchTasks: () => Promise<void>; // Fetch tasks callback
 }
 
-const TaskForm: React.FC<TaskFormProps> = ({ selectedDate }) => {
+const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, fetchTasks }) => {
   const [title, setTitle] = useState('');
 
   // Format date to 'YYYY-MM-DD' in local time
@@ -20,10 +21,16 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate }) => {
       return;
     }
 
-    const formattedDate = formatDateToLocalString(selectedDate); // Correctly formatted date
-    await addTask({ title, date: formattedDate }); // Send task with correct date
-    setTitle(''); // Clear input after submission
-    alert('Task added successfully!');
+    const formattedDate = formatDateToLocalString(selectedDate);
+    try {
+      await addTask({ title, date: formattedDate });
+      setTitle(''); // Clear input after submission
+      alert('Task added successfully!');
+      await fetchTasks(); // Fetch tasks again
+    } catch (error) {
+      console.error('Error adding task:', error);
+      alert('Failed to add the task. Please try again.');
+    }
   };
 
   return (
