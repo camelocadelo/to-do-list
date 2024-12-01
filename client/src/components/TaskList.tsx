@@ -11,15 +11,17 @@ interface Task {
 interface TaskListProps {
   tasks: Task[];
   fetchTasks: () => Promise<void>; // Fetch tasks callback
+  refreshTaskCounts: () => Promise<void>; // Callback to refresh task counts
 }
 
-const TaskList: React.FC<TaskListProps> = ({ tasks, fetchTasks }) => {
+const TaskList: React.FC<TaskListProps> = ({ tasks, fetchTasks, refreshTaskCounts }) => {
   const handleDelete = async (id: number) => {
     if (window.confirm('Are you sure you want to delete this task?')) {
       try {
         await deleteTask(id);
         alert('Task deleted successfully!');
         await fetchTasks(); // Fetch tasks again
+        await refreshTaskCounts(); // Refresh task counts for the calendar
       } catch (error) {
         console.error('Error deleting task:', error);
         alert('Failed to delete the task. Please try again.');
