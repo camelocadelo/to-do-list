@@ -1,6 +1,7 @@
 import React from 'react';
-import { deleteTask } from '../services/api';
+import { deleteTask } from 'services/api';
 import { toast } from 'react-toastify';
+import './TaskListStyles.css'
 
 interface Task {
   id: number;
@@ -35,9 +36,13 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, setTasks,  fetchTasks, refre
     );
   };
   return (
-    <ul>
+    <ul className="taskList">
     {tasks.map((task) => (
-      <li key={task.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+      <li
+        key={task.id}
+        // style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}
+        className="taskListItem"
+        >
         <input
           type="checkbox"
           checked={task.completed}

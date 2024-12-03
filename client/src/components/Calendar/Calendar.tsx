@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { fetchCalendarData, fetchTasksForDate } from './../services/api';
-import TaskList from './TaskList'; // Component to display tasks
-import TaskForm from './TaskForm'; 
+import { fetchCalendarData, fetchTasksForDate } from 'services/api';
+import TaskList from 'components/TaskList/TaskList'
+import TaskForm from 'components/TaskForm/TaskForm';
+import './CalendarStyles.css';
 
 const CalendarComponent: React.FC = () => {
   const [taskCounts, setTaskCounts] = useState<{ [key: string]: number }>({});
@@ -44,24 +45,8 @@ const CalendarComponent: React.FC = () => {
     const count = taskCounts[formattedDate] || 0;
   
     return count > 0 ? (
-      <div style={{ position: 'relative', height: '100%', width: '100%' }}>
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '5px', // Moves the circle further down
-            right: '-5px', // Moves the circle further to the right
-            width: '24px',
-            height: '24px',
-            borderRadius: '50%',
-            backgroundColor: 'rgba(224, 247, 250, 0.8)', // Light blue with transparency
-            color: '#006064', // Darker text color for contrast
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '12px',
-            fontWeight: 'bold',
-          }}
-        >
+      <div className='counter-container'>
+        <div className='counter'>
           {count}
         </div>
       </div>
@@ -76,17 +61,17 @@ const CalendarComponent: React.FC = () => {
 
   return (
     <div>
-        <Calendar
-      tileContent={formatDateTile}
-      onClickDay={handleDateClick} // Set the active date
-    />
-    {activeDate && (
-      <div style={{ marginTop: '20px' }}>
-        <h3>Tasks for {formattedActiveDate}</h3>
-        <TaskList tasks={tasks} fetchTasks={fetchTasks} refreshTaskCounts={refreshTaskCounts} setTasks={setTasks} />
-        <TaskForm selectedDate={activeDate} fetchTasks={fetchTasks} refreshTaskCounts={refreshTaskCounts} />
-      </div>
-    )}
+      <Calendar
+        tileContent={formatDateTile}
+        onClickDay={handleDateClick} // Set the active date
+      />
+      {activeDate && (
+        <div className='task-container'>
+          <h3>Tasks for {formattedActiveDate}</h3>
+          <TaskForm selectedDate={activeDate} fetchTasks={fetchTasks} refreshTaskCounts={refreshTaskCounts} />
+          <TaskList tasks={tasks} fetchTasks={fetchTasks} refreshTaskCounts={refreshTaskCounts} setTasks={setTasks} />
+        </div>
+      )}
     </div>
   );
 };
