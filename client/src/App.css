@@ -1,0 +1,30 @@
+.appContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers content horizontally */
+  justify-content: flex-start; /* Aligns content to the top */
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 800px; /* Restricts the width on larger screens */
+  min-height: 100vh; /* Ensures the container takes full height of the viewport */
+  background-color: #f9f9f9; /* Light background for better contrast */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for a subtle card effect */
+  border-radius: 10px; /* Rounded corners for modern look */
+}
+
+/* For mobile devices */
+@media (max-width: 768px) {
+  .appContainer {
+    padding: 10px;
+    max-width: 100%; /* Full width on smaller screens */
+    border-radius: 0; /* Remove rounded corners for simplicity on mobile */
+    box-shadow: none; /* Remove shadow on mobile for a flatter design */
+  }
+}
+
+/* For desktop screens */
+@media (min-width: 769px) {
+  .appContainer {
+    margin-top: 50px; /* Center vertically on desktops */
+  }
+}

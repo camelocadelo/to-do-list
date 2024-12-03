@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { addTask } from '../services/api';
+import { addTask } from 'services/api';
 import { toast } from 'react-toastify';
+import "./TaskFormStyles.css"
 
 interface TaskFormProps {
   selectedDate: Date;
@@ -36,7 +37,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, fetchTasks, refreshTa
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="taskForm">
       <input
         type="text"
         placeholder="Task title"
